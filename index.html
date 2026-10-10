@@ -1,1 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A&D FOODS - Fresh & Delicious Meals</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero-bg {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
 
+    <!-- Header / Navigation -->
+    <header class="bg-amber-600 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-wide flex items-center gap-2">
+                <i class="fa-solid font-utensils"></i> A&D FOODS
+            </h1>
+            <nav class="hidden md:flex space-x-6 font-medium">
+                <a href="#home" class="hover:text-amber-200 transition">Home</a>
+                <a href="#menu" class="hover:text-amber-200 transition">Our Menu</a>
+                <a href="#about" class="hover:text-amber-200 transition">About Us</a>
+                <a href="#contact" class="hover:text-amber-200 transition">Contact</a>
+            </nav>
+            <a href="https://wa.me/94770000000?text=Hello%20A%26D%20Foods,%20I%20would%20like%20to%20place%20an%20order!" target="_blank" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full font-semibold flex items-center gap-2 transition">
+                <i class="fa-brands fa-whatsapp"></i> Order Now
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-bg text-white py-24 text-center px-4">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-4xl md:text-6xl font-extrabold mb-4">Welcome to A&D FOODS</h2>
+            <p class="text-lg md:text-xl mb-8 text-gray-200">Delicious, Authentic & Fresh Sri Lankan Homemade Dishes Delivered Right to Your Doorstep!</p>
+            <a href="#menu" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg text-lg transition">Explore Menu</a>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="max-w-6xl mx-auto px-4 py-16">
+        <h2 class="text-3xl font-bold text-center text-gray-900 mb-2">Our Menu</h2>
+        <p class="text-center text-gray-600 mb-10">Taste the best homemade meals prepared with fresh ingredients</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Item 1: Idiyappam -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300">
+                <img src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=600&q=80" alt="Idiyappam" class="w-full h-48 object-cover">
+                <div class="p-5">
+                    <h3 class="text-xl font-bold mb-2 text-amber-700">Idiyappam (String Hoppers)</h3>
+                    <p class="text-gray-600 text-sm mb-4">Served with spicy Katta Sambal, Coconut Pol Sambal, and Creamy Dhal Curry.</p>
+                    <a href="https://wa.me/94770000000?text=I%20would%20like%20to%20order%20Idiyappam" target="_blank" class="block text-center bg-amber-600 text-white py-2 rounded-lg font-semibold hover:bg-amber-700 transition">Order via WhatsApp</a>
+                </div>
+            </div>
+
+            <!-- Item 2: Kiribath -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300">
+                <img src="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=600&q=80" alt="Kiribath" class="w-full h-48 object-cover">
+                <div class="p-5">
+                    <h3 class="text-xl font-bold mb-2 text-amber-700">Kiribath (Milk Rice)</h3>
+                    <p class="text-gray-600 text-sm mb-4">Rich and coconutty traditional Kiribath served with spicy Lunu Miris or Chicken Curry.</p>
+                    <a href="https://wa.me/94770000000?text=I%20would%20like%20to%20order%20Kiribath" target="_blank" class="block text-center bg-amber-600 text-white py-2 rounded-lg font-semibold hover:bg-amber-700 transition">Order via WhatsApp</a>
+                </div>
+            </div>
+
+            <!-- Item 3: Rice & Curry -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300">
+                <img src="https://images.unsplash.com/photo-1516714435131-44d6b64dc6a2?auto=format&fit=crop&w=600&q=80" alt="Rice and Curry" class="w-full h-48 object-cover">
+                <div class="p-5">
+                    <h3 class="text-xl font-bold mb-2 text-amber-700">Rice & Curry</h3>
+                    <p class="text-gray-600 text-sm mb-4">Steamed White or Red Rice served with 4 vegetable curries and Fish/Chicken/Egg.</p>
+                    <a href="https://wa.me/94770000000?text=I%20would%20like%20to%20order%20Rice%20and%20Curry" target="_blank" class="block text-center bg-amber-600 text-white py-2 rounded-lg font-semibold hover:bg-amber-700 transition">Order via WhatsApp</a>
+                </div>
+            </div>
+
+            <!-- Item 4: Noodles -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300">
+                <img src="https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80" alt="Noodles" class="w-full h-48 object-cover">
+                <div class="p-5">
+                    <h3 class="text-xl font-bold mb-2 text-amber-700">Fried Noodles</h3>
+                    <p class="text-gray-600 text-sm mb-4">Wok-tossed Sri Lankan style Egg/Chicken noodles mixed with fresh vegetables and spices.</p>
+                    <a href="https://wa.me/94770000000?text=I%20would%20like%20to%20order%20Noodles" target="_blank" class="block text-center bg-amber-600 text-white py-2 rounded-lg font-semibold hover:bg-amber-700 transition">Order via WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-gray-900 text-white py-10">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <h3 class="text-2xl font-bold text-amber-500 mb-2">A&D FOODS</h3>
+            <p class="text-gray-400 mb-4">Quality Homemade Food Delivered Fresh</p>
+            <div class="flex justify-center space-x-6 text-xl mb-6">
+                <a href="#" class="hover:text-amber-500"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="hover:text-amber-500"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://wa.me/94770000000" class="hover:text-amber-500"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+            <p class="text-xs text-gray-500">&copy; 2026 A&D FOODS. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
