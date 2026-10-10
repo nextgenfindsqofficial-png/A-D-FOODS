@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A&D Foods | Authentic Meals Delivered Fresh & Fast</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#fff8f1',
+                            100: '#feecdc',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            dark: '#1e1b18'
+                        },
+                        accent: {
+                            yellow: '#fbbf24',
+                            red: '#dc2626',
+                            green: '#16a34a'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #fafafa;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f97316;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ea580c;
+        }
+
+        /* Cart Drawer Animation */
+        .cart-drawer {
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        /* Custom Pulse Effect for Badges */
+        @keyframes customPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+        .pulse-badge {
+            animation: customPulse 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+
+    <!-- Announcement Bar -->
+    <div class="bg-brand-600 text-white text-xs font-semibold py-2 px-4 text-center flex justify-between items-center max-w-7xl mx-auto w-full sm:px-6 lg:px-8 rounded-b-lg">
+        <span class="hidden sm:inline"><i class="fa-solid fa-fire mr-1 text-accent-yellow"></i> Hot Deal: Use code <span class="bg-white/20 px-1.5 py-0.5 rounded font-mono">ADFOODS20</span> for 20% OFF your first order!</span>
+        <span class="sm:hidden mx-auto"><i class="fa-solid fa-motorcycle mr-1"></i> Fast Delivery across Islandwide Outlets!</span>
+        <div class="hidden md:flex items-center space-x-4 text-xs">
+            <span><i class="fa-solid fa-phone mr-1"></i> +94 11 234 5678</span>
+            <span><i class="fa-solid fa-clock mr-1"></i> Open: 6:00 AM - 11:00 PM</span>
+        </div>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md shadow-sm border-b border-slate-100 transition-all duration-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo -->
+                <a href="#home" class="flex items-center gap-3 group">
+                    <div class="w-12 h-12 bg-gradient-to-tr from-brand-600 to-amber-500 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-brand-500/30 group-hover:scale-105 transition duration-300">
+                        <i class="fa-solid fa-utensils text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-extrabold tracking-tight text-slate-900 group-hover:text-brand-600 transition">A&D <span class="text-brand-500">Foods</span></span>
+                        <p class="text-[10px] font-semibold tracking-widest text-slate-400 uppercase -mt-1">Tasty & Fresh Always</p>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-8 font-semibold text-sm text-slate-600">
+                    <a href="#home" class="hover:text-brand-600 transition hover:scale-105">Home</a>
+                    <a href="#menu" class="hover:text-brand-600 transition hover:scale-105">Menu</a>
+                    <a href="#offers" class="hover:text-brand-600 transition hover:scale-105">Special Offers</a>
+                    <a href="#about" class="hover:text-brand-600 transition hover:scale-105">About Us</a>
+                    <a href="#contact" class="hover:text-brand-600 transition hover:scale-105">Contact</a>
+                </nav>
+
+                <!-- Search, Cart & Action Buttons -->
+                <div class="flex items-center space-x-3 sm:space-x-4">
+                    
+                    <!-- Search Bar Toggle / Input -->
+                    <div class="relative hidden sm:block">
+                        <input type="text" id="navSearchInput" oninput="handleNavSearch(event)" placeholder="Search string hoppers, rice..." class="w-48 lg:w-64 pl-9 pr-4 py-2 bg-slate-100 hover:bg-slate-50 focus:bg-white text-xs text-slate-800 rounded-full border border-transparent focus:border-brand-500 focus:outline-none transition-all shadow-inner">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                    </div>
+
+                    <!-- Cart Icon Button -->
+                    <button onclick="toggleCartDrawer(true)" class="relative p-3 text-slate-700 bg-slate-100 hover:bg-brand-50 hover:text-brand-600 rounded-full transition duration-200">
+                        <i class="fa-solid fa-basket-shopping text-lg"></i>
+                        <span id="cartBadge" class="absolute -top-1 -right-1 bg-brand-600 text-white text-[11px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow">0</span>
+                    </button>
+
+                    <!-- Book Table / Order CTA -->
+                    <button onclick="openBookingModal()" class="hidden lg:flex items-center gap-2 bg-slate-900 text-white hover:bg-slate-800 px-4 py-2.5 rounded-full text-xs font-bold transition shadow-md hover:shadow-lg">
+                        <i class="fa-solid fa-calendar-check text-brand-500"></i> Book Table
+                    </button>
+
+                    <a href="#menu" class="bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-full text-xs font-bold transition shadow-md shadow-brand-500/20 hover:shadow-lg hover:scale-105">
+                        Order Now
+                    </a>
+
+                    <!-- Mobile Menu Button -->
+                    <button onclick="toggleMobileMenu()" class="md:hidden text-slate-700 p-2 text-xl focus:outline-none">
+                        <i class="fa-solid fa-bars" id="mobileMenuIcon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-b border-slate-200 px-6 py-4 space-y-3 font-semibold text-slate-700 transition-all">
+            <div class="relative mb-3">
+                <input type="text" oninput="handleNavSearch(event)" placeholder="Search foods..." class="w-full pl-9 pr-4 py-2.5 bg-slate-100 text-xs rounded-xl focus:outline-none border focus:border-brand-500">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+            </div>
+            <a href="#home" onclick="toggleMobileMenu()" class="block hover:text-brand-600 py-1">Home</a>
+            <a href="#menu" onclick="toggleMobileMenu()" class="block hover:text-brand-600 py-1">Menu</a>
+            <a href="#offers" onclick="toggleMobileMenu()" class="block hover:text-brand-600 py-1">Special Offers</a>
+            <a href="#about" onclick="toggleMobileMenu()" class="block hover:text-brand-600 py-1">About Us</a>
+            <a href="#contact" onclick="toggleMobileMenu()" class="block hover:text-brand-600 py-1">Contact</a>
+            <button onclick="toggleMobileMenu(); openBookingModal();" class="w-full text-left font-semibold text-brand-600 py-1">
+                <i class="fa-solid fa-calendar-days mr-2"></i> Book a Table
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative bg-gradient-to-br from-amber-50/50 via-white to-orange-50/40 py-12 md:py-20 overflow-hidden">
+        <!-- Floating decorative graphics -->
+        <div class="absolute -top-12 -left-12 w-64 h-64 bg-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-0 right-0 w-80 h-80 bg-amber-400/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Hero Left Content -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-100 text-brand-700 text-xs font-bold tracking-wide uppercase shadow-sm">
+                        <span class="w-2 h-2 rounded-full bg-brand-500 animate-ping"></span>
+                        <i class="fa-solid fa-pepper-hot text-brand-600"></i> Authentic Sri Lankan & International Delights
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-none">
+                        Delicious Meals <br class="hidden sm:inline">
+                        Delivered <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-amber-500">Fresh & Fast</span>
+                    </h1>
+
+                    <p class="text-slate-600 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
+                        Craving steaming hot <span class="font-semibold text-slate-800">Idiyappam (String Hoppers)</span>, fragrant <span class="font-semibold text-slate-800">Kiribath</span>, spicy <span class="font-semibold text-slate-800">Kottu</span>, or flavorful fried <span class="font-semibold text-slate-800">Noodles</span>? At <strong class="text-brand-600">A&D Foods</strong>, we serve mouthwatering home-style food cooked with love and authentic Sri Lankan spices.
+                    </p>
+
+                    <!-- Hero Call-To-Actions -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="#menu" class="w-full sm:w-auto bg-brand-500 hover:bg-brand-600 text-white px-8 py-4 rounded-2xl text-sm font-bold transition duration-300 shadow-xl shadow-brand-500/25 flex items-center justify-center gap-3 group">
+                            <span>Explore Full Menu</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                        </a>
+                        <button onclick="openBookingModal()" class="w-full sm:w-auto bg-white hover:bg-slate-100 text-slate-800 border-2 border-slate-200 px-7 py-3.5 rounded-2xl text-sm font-bold transition flex items-center justify-center gap-2 shadow-sm">
+                            <i class="fa-solid fa-utensils text-brand-500"></i>
+                            <span>Book a Table</span>
+                        </button>
+                    </div>
+
+                    <!-- Hero Quick Features Stats -->
+                    <div class="grid grid-cols-3 gap-3 sm:gap-6 pt-6 border-t border-slate-200/80">
+                        <div class="bg-white/80 p-3 sm:p-4 rounded-2xl border border-slate-100 shadow-sm text-center lg:text-left">
+                            <div class="text-brand-500 font-extrabold text-xl sm:text-2xl">30 Min</div>
+                            <div class="text-xs text-slate-500 font-medium">Express Delivery</div>
+                        </div>
+                        <div class="bg-white/80 p-3 sm:p-4 rounded-2xl border border-slate-100 shadow-sm text-center lg:text-left">
+                            <div class="text-emerald-600 font-extrabold text-xl sm:text-2xl">100%</div>
+                            <div class="text-xs text-slate-500 font-medium">Fresh Ingredients</div>
+                        </div>
+                        <div class="bg-white/80 p-3 sm:p-4 rounded-2xl border border-slate-100 shadow-sm text-center lg:text-left">
+                            <div class="text-amber-500 font-extrabold text-xl sm:text-2xl">4.9 ★</div>
+                            <div class="text-xs text-slate-500 font-medium">Customer Rating</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Right Image Showcase -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative mx-auto max-w-md lg:max-w-none">
+                        <!-- Glow behind image -->
+                        <div class="absolute inset-0 bg-gradient-to-tr from-brand-500 to-amber-400 rounded-3xl rotate-3 blur-lg opacity-40"></div>
+                        
+                        <!-- Main Feature Image -->
+                        <div class="relative bg-white p-3 rounded-3xl shadow-2xl overflow-hidden border border-slate-100">
+                            <img src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80" 
+                                 alt="A&D Foods Delicious Feast" 
+                                 onerror="this.src='https://placehold.co/600x450/f97316/ffffff?text=A%26D+Foods+Delicious+Meals'"
+                                 class="w-full h-80 sm:h-96 object-cover rounded-2xl hover:scale-105 transition duration-500">
+                            
+                            <!-- Overlay Badge 1 -->
+                            <div class="absolute top-6 left-6 bg-slate-900/90 backdrop-blur-md text-white p-3 rounded-2xl shadow-lg flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-brand-500 flex items-center justify-center text-white">
+                                    <i class="fa-solid fa-bowl-rice text-lg"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-300">Hot Favorite</p>
+                                    <p class="text-sm font-bold">Sri Lankan Specials</p>
+                                </div>
+                            </div>
+
+                            <!-- Overlay Badge 2 -->
+                            <div class="absolute bottom-6 right-6 bg-white/95 backdrop-blur-md text-slate-900 p-3.5 rounded-2xl shadow-xl flex items-center gap-3 border border-slate-100 pulse-badge">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-500 flex items-center justify-center text-white">
+                                    <i class="fa-solid fa-leaf text-lg"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-500">Quality Check</p>
+                                    <p class="text-xs font-extrabold text-slate-800">100% Hygienic & Fresh</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Offers Section -->
+    <section id="offers" class="py-12 bg-white border-y border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
+                <div>
+                    <span class="text-brand-600 text-xs font-bold uppercase tracking-wider">Unbeatable Savings</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Today's Hot Deals & Combos</h2>
+                </div>
+                <div class="flex items-center gap-2 text-xs font-semibold text-slate-500 bg-slate-100 px-4 py-2 rounded-full">
+                    <i class="fa-solid fa-clock text-brand-500"></i> Offers valid till stocks last today!
+                </div>
+            </div>
+
+            <!-- Offers Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Promo Banner 1 -->
+                <div class="relative bg-gradient-to-r from-brand-700 via-brand-600 to-amber-600 rounded-3xl p-6 sm:p-8 text-white shadow-xl overflow-hidden group">
+                    <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
+                    <div class="relative z-10 space-y-3 max-w-sm">
+                        <span class="bg-amber-400 text-slate-900 font-extrabold text-xs px-3 py-1 rounded-full uppercase shadow">20% OFF WEEKEND FEAST</span>
+                        <h3 class="text-2xl sm:text-3xl font-black leading-tight">Sri Lankan Family Breakfast Combo</h3>
+                        <p class="text-xs sm:text-sm text-amber-100">30 String Hoppers + Kiribath Set + Katta Sambol + Potato Curry + Choice of Fish or Chicken Curry.</p>
+                        <div class="pt-2 flex items-center gap-4">
+                            <div>
+                                <span class="text-xs line-through text-white/70">Rs. 2,200</span>
+                                <span class="text-2xl font-black block">Rs. 1,750</span>
+                            </div>
+                            <button onclick="addPromoToCart('Weekend Family Combo', 1750)" class="bg-white text-brand-700 hover:bg-amber-100 px-5 py-2.5 rounded-xl font-bold text-xs shadow hover:scale-105 transition">
+                                Claim Deal <i class="fa-solid fa-plus ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Promo Banner 2 -->
+                <div class="relative bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl overflow-hidden group">
+                    <div class="absolute -right-8 -top-8 w-40 h-40 bg-brand-500/20 rounded-full blur-2xl pointer-events-none"></div>
+                    <div class="relative z-10 space-y-3 max-w-sm">
+                        <span class="bg-brand-500 text-white font-extrabold text-xs px-3 py-1 rounded-full uppercase shadow">NIGHT SPECIAL</span>
+                        <h3 class="text-2xl sm:text-3xl font-black leading-tight">Spicy Chicken Kottu + Soft Drink Combo</h3>
+                        <p class="text-xs sm:text-sm text-slate-300">Large Shredded Chicken Cheese Kottu served with hot gravy & chilled beverage of your choice.</p>
+                        <div class="pt-2 flex items-center gap-4">
+                            <div>
+                                <span class="text-xs line-through text-slate-400">Rs. 1,450</span>
+                                <span class="text-2xl font-black block text-amber-400">Rs. 1,150</span>
+                            </div>
+                            <button onclick="addPromoToCart('Kottu + Drink Night Combo', 1150)" class="bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-xl font-bold text-xs shadow hover:scale-105 transition">
+                                Claim Deal <i class="fa-solid fa-plus ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Menu Section -->
+    <section id="menu" class="py-16 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Section Header -->
+            <div class="text-center max-w-2xl mx-auto mb-10">
+                <span class="text-brand-600 text-xs font-bold uppercase tracking-widest bg-brand-100 px-3 py-1 rounded-full">Menu Highlights</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">Explore Delicious Dishes</h2>
+                <p class="text-slate-500 text-sm mt-2">Freshly cooked using traditional Sri Lankan recipes & high quality ingredients.</p>
+                
+                <!-- Category Search Bar -->
+                <div class="mt-6 relative max-w-md mx-auto">
+                    <input type="text" id="menuSearchInput" oninput="handleMenuSearch(event)" placeholder="Search string hoppers, kiribath, rice, noodles..." class="w-full pl-10 pr-4 py-3 bg-white text-sm rounded-2xl border border-slate-200 shadow-sm focus:outline-none focus:border-brand-500">
+                    <i class="fa-solid fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                </div>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="flex items-center justify-start md:justify-center gap-2 overflow-x-auto pb-4 mb-8 scrollbar-none">
+                <button onclick="filterCategory('all')" class="category-btn active bg-brand-500 text-white px-5 py-2.5 rounded-full text-xs font-bold shadow-md whitespace-nowrap transition" data-category="all">
+                    All Items
+                </button>
+                <button onclick="filterCategory('sl-specials')" class="category-btn bg-white text-slate-700 hover:bg-slate-100 px-5 py-2.5 rounded-full text-xs font-bold border border-slate-200 whitespace-nowrap transition" data-category="sl-specials">
+                    🇱🇰 Sri Lankan Specials
+                </button>
+                <button onclick="filterCategory('rice-noodles')" class="category-btn bg-white text-slate-700 hover:bg-slate-100 px-5 py-2.5 rounded-full text-xs font-bold border border-slate-200 whitespace-nowrap transition" data-category="rice-noodles">
+                    🍚 Rice & Noodles
+                </button>
+                <button onclick="filterCategory('burgers')" class="category-btn bg-white text-slate-700 hover:bg-slate-100 px-5 py-2.5 rounded-full text-xs font-bold border border-slate-200 whitespace-nowrap transition" data-category="burgers">
+                    🍔 Burgers
+                </button>
+                <button onclick="filterCategory('pizza')" class="category-btn bg-white text-slate-700 hover:bg-slate-100 px-5 py-2.5 rounded-full text-xs font-bold border border-slate-200 whitespace-nowrap transition" data-category="pizza">
+                    🍕 Pizza
+                </button>
+                <button onclick="filterCategory('beverages')" class="category-btn bg-white text-slate-700 hover:bg-slate-100 px-5 py-2.5 rounded-full text-xs font-bold border border-slate-200 whitespace-nowrap transition" data-category="beverages">
+                    🍹 Beverages
+                </button>
+                <button onclick="filterCategory('desserts')" class="category-btn bg-white text-slate-700 hover:bg-slate-100 px-5 py-2.5 rounded-full text-xs font-bold border border-slate-200 whitespace-nowrap transition" data-category="desserts">
+                    🍨 Desserts
+                </button>
+            </div>
+
+            <!-- Food Cards Grid -->
+            <div id="foodGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Dynamic food cards loaded via JS -->
+            </div>
+
+            <!-- Empty State Container -->
+            <div id="emptyMenuState" class="hidden text-center py-16">
+                <div class="w-16 h-16 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fa-solid fa-utensils text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-800">No dishes found</h3>
+                <p class="text-xs text-slate-500 mt-1">Try adjusting your search or category filter.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="py-16 bg-white border-t border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Image Grid -->
+                <div class="lg:col-span-6 grid grid-cols-2 gap-4">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80" 
+                         alt="Fresh preparation" 
+                         onerror="this.src='https://placehold.co/400x500/1e293b/ffffff?text=A%26D+Kitchen'"
+                         class="rounded-3xl shadow-lg h-64 sm:h-80 w-full object-cover">
+                    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80" 
+                         alt="Plated meals" 
+                         onerror="this.src='https://placehold.co/400x500/f97316/ffffff?text=Authentic+Flavors'"
+                         class="rounded-3xl shadow-lg h-64 sm:h-80 w-full object-cover mt-6">
+                </div>
+
+                <!-- Right Story Content -->
+                <div class="lg:col-span-6 space-y-6">
+                    <span class="text-brand-600 text-xs font-bold uppercase tracking-widest bg-brand-50 px-3 py-1 rounded-full">Our Story</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 leading-tight">Authentic Taste, Hygiene & Passion in Every Bite</h2>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        At <strong class="text-slate-900">A&D Foods</strong>, we believe great food brings people together. Starting with a love for traditional Sri Lankan cuisine, we take immense pride in preparing fresh, aromatic meals every day—from our famous morning <span class="text-brand-600 font-semibold">Kiribath</span> and piping hot <span class="text-brand-600 font-semibold">Idiyappam</span> to signature fried noodles, rice & curry, and tasty evening snacks.
+                    </p>
+                    
+                    <div class="space-y-3 pt-2">
+                        <div class="flex items-start gap-3">
+                            <div class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
+                                <i class="fa-solid fa-check text-xs"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-800">Fresh Local Ingredients</h4>
+                                <p class="text-xs text-slate-500">Sourced daily from local Sri Lankan farmers and trusted suppliers.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
+                                <i class="fa-solid fa-check text-xs"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-800">100% Hygienic Preparation</h4>
+                                <p class="text-xs text-slate-500">Prepared under strict quality and sanitation guidelines in our clean kitchens.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
+                                <i class="fa-solid fa-check text-xs"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-800">Swift Delivery & Friendly Service</h4>
+                                <p class="text-xs text-slate-500">Delivered piping hot straight to your doorstep or ready for pickup.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 flex items-center gap-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center font-bold text-lg">
+                                A&D
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400">Founders & Culinary Team</p>
+                                <p class="text-sm font-bold text-slate-800">A&D Foods Family</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Location Footer -->
+    <footer id="contact" class="bg-slate-900 text-slate-300 pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-slate-800">
+                
+                <!-- Brand Info -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-brand-500 rounded-xl flex items-center justify-center text-white">
+                            <i class="fa-solid fa-utensils"></i>
+                        </div>
+                        <span class="text-2xl font-extrabold text-white">A&D <span class="text-brand-500">Foods</span></span>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Your go-to restaurant for authentic Sri Lankan meals, fresh string hoppers, kiribath, kottu, and fast comfort food.
+                    </p>
+                    <div class="flex items-center space-x-3 text-slate-400">
+                        <a href="#" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-brand-500 hover:text-white flex items-center justify-center transition"><i class="fa-brands fa-facebook-f text-xs"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-brand-500 hover:text-white flex items-center justify-center transition"><i class="fa-brands fa-instagram text-xs"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-brand-500 hover:text-white flex items-center justify-center transition"><i class="fa-brands fa-whatsapp text-xs"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-brand-500 hover:text-white flex items-center justify-center transition"><i class="fa-brands fa-tiktok text-xs"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-white font-bold text-sm mb-4 tracking-wider uppercase">Quick Links</h3>
+                    <ul class="space-y-2.5 text-xs text-slate-400">
+                        <li><a href="#home" class="hover:text-brand-500 transition">Home Page</a></li>
+                        <li><a href="#menu" class="hover:text-brand-500 transition">Our Menu</a></li>
+                        <li><a href="#offers" class="hover:text-brand-500 transition">Promotions & Deals</a></li>
+                        <li><a href="#about" class="hover:text-brand-500 transition">About Our Kitchen</a></li>
+                        <li><a href="#" onclick="openBookingModal(); return false;" class="hover:text-brand-500 transition">Table Reservations</a></li>
+                    </ul>
+                </div>
+
+                <!-- Operating Hours & Contact -->
+                <div>
+                    <h3 class="text-white font-bold text-sm mb-4 tracking-wider uppercase">Contact & Hours</h3>
+                    <ul class="space-y-3 text-xs text-slate-400">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-location-dot text-brand-500 mt-0.5"></i>
+                            <span>124 Galle Road, Colombo 03, Sri Lanka</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-phone text-brand-500"></i>
+                            <span>+94 11 234 5678 / +94 77 123 4567</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-envelope text-brand-500"></i>
+                            <span>orders@adfoods.lk</span>
+                        </li>
+                        <li class="flex items-center gap-2 pt-2 text-slate-300">
+                            <i class="fa-solid fa-clock text-amber-400"></i>
+                            <span>Mon - Sun: 6:00 AM - 11:00 PM</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter & Feedback -->
+                <div>
+                    <h3 class="text-white font-bold text-sm mb-4 tracking-wider uppercase">Stay Updated</h3>
+                    <p class="text-xs text-slate-400 mb-3">Subscribe for exclusive discount vouchers and weekend Sri Lankan combo offers.</p>
+                    <form onsubmit="handleNewsletter(event)" class="space-y-2">
+                        <input type="email" id="newsletterEmail" required placeholder="Enter your email address" class="w-full px-3 py-2 bg-slate-800 text-white placeholder-slate-500 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-brand-500 border border-slate-700">
+                        <button type="submit" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold py-2 rounded-xl text-xs transition">
+                            Subscribe Now
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+            <!-- Bottom Copyright Bar -->
+            <div class="pt-8 text-center text-xs text-slate-500 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <p>&copy; 2026 A&D Foods Sri Lanka. All Rights Reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-slate-400">Privacy Policy</a>
+                    <a href="#" class="hover:text-slate-400">Terms of Service</a>
+                    <a href="#" class="hover:text-slate-400">Delivery Guidelines</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Shopping Cart Slide-over Drawer -->
+    <div id="cartOverlay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300" onclick="toggleCartDrawer(false)"></div>
+    
+    <div id="cartDrawer" class="cart-drawer fixed top-0 right-0 h-full w-full max-w-md bg-white z-50 shadow-2xl flex flex-col translate-x-full">
+        
+        <!-- Cart Header -->
+        <div class="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-basket-shopping text-brand-600 text-lg"></i>
+                <h3 class="font-extrabold text-slate-900 text-lg">Your Food Order</h3>
+                <span id="drawerCartCount" class="bg-brand-100 text-brand-700 text-xs font-bold px-2 py-0.5 rounded-full">0 items</span>
+            </div>
+            <button onclick="toggleCartDrawer(false)" class="p-2 text-slate-400 hover:text-slate-700 rounded-full hover:bg-slate-200/50 transition">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Cart Items List Container -->
+        <div id="cartItemsList" class="flex-1 overflow-y-auto p-5 space-y-4">
+            <!-- Dynamic Cart Items Rendered Here -->
+        </div>
+
+        <!-- Empty Cart Graphic State -->
+        <div id="emptyCartView" class="hidden flex-1 flex flex-col items-center justify-center p-6 text-center">
+            <div class="w-20 h-20 bg-brand-50 text-brand-500 rounded-full flex items-center justify-center mb-4 text-3xl">
+                <i class="fa-solid fa-utensils"></i>
+            </div>
+            <h4 class="font-bold text-slate-800 text-base">Your basket is currently empty</h4>
+            <p class="text-xs text-slate-500 mt-1 max-w-xs">Looks like you haven't added any Sri Lankan delicacies or meals yet.</p>
+            <button onclick="toggleCartDrawer(false)" class="mt-5 bg-brand-500 text-white px-6 py-2.5 rounded-full text-xs font-bold shadow hover:bg-brand-600 transition">
+                Browse Menu Now
+            </button>
+        </div>
+
+        <!-- Cart Footer / Summary -->
+        <div id="cartFooter" class="p-5 border-t border-slate-100 bg-slate-50 space-y-3">
+            
+            <!-- Promo Code Input -->
+            <div class="flex gap-2">
+                <input type="text" id="promoInput" placeholder="Promo Code (e.g. ADFOODS20)" class="flex-1 px-3 py-2 text-xs bg-white border border-slate-200 rounded-xl focus:outline-none focus:border-brand-500 uppercase font-mono">
+                <button onclick="applyPromoCode()" class="bg-slate-900 text-white text-xs font-bold px-4 py-2 rounded-xl hover:bg-slate-800 transition">Apply</button>
+            </div>
+            <p id="promoMessage" class="text-[11px] hidden"></p>
+
+            <!-- Price Breakdown -->
+            <div class="space-y-1.5 text-xs text-slate-600 pt-2 border-t border-slate-200/60">
+                <div class="flex justify-between">
+                    <span>Subtotal</span>
+                    <span id="cartSubtotal" class="font-bold text-slate-800">Rs. 0</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Delivery Fee</span>
+                    <span id="cartDelivery" class="font-bold text-slate-800">Rs. 250</span>
+                </div>
+                <div id="discountRow" class="flex justify-between text-emerald-600 font-bold hidden">
+                    <span>Discount (20%)</span>
+                    <span id="cartDiscount">- Rs. 0</span>
+                </div>
+                <div class="flex justify-between text-sm font-black text-slate-900 pt-2 border-t border-slate-200">
+                    <span>Total Amount</span>
+                    <span id="cartTotal" class="text-brand-600">Rs. 250</span>
+                </div>
+            </div>
+
+            <!-- Checkout Button -->
+            <button onclick="openCheckoutModal()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-extrabold py-3.5 rounded-2xl text-xs sm:text-sm transition shadow-lg shadow-brand-500/30 flex items-center justify-center gap-2">
+                <span>Proceed to Checkout</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeCheckoutModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-brand-100 text-brand-600 flex items-center justify-center font-bold">
+                    <i class="fa-solid fa-truck-fast text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-extrabold text-slate-900">Delivery Details</h3>
+                    <p class="text-xs text-slate-500">Complete your order details below</p>
+                </div>
+            </div>
+
+            <form onsubmit="submitOrder(event)" class="space-y-4 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Full Name *</label>
+                    <input type="text" id="custName" required placeholder="e.g. Ruwan Perera" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-500 text-xs">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Phone Number *</label>
+                        <input type="tel" id="custPhone" required placeholder="077 123 4567" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-500 text-xs">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Delivery City</label>
+                        <select id="custCity" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-500 text-xs font-medium">
+                            <option value="Colombo">Colombo (30 Min Delivery)</option>
+                            <option value="Dehiwala">Dehiwala / Mount Lavinia</option>
+                            <option value="Kotte">Kotte / Battaramulla</option>
+                            <option value="Kandy">Kandy Central</option>
+                            <option value="Galle">Galle Fort Zone</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Delivery Address *</label>
+                    <textarea id="custAddress" required rows="2" placeholder="House No, Street name, Near landmark..." class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-500 text-xs"></textarea>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Payment Method</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="border border-slate-200 p-3 rounded-xl flex items-center gap-2 cursor-pointer hover:border-brand-500 transition">
+                            <input type="radio" name="payment" value="cod" checked class="text-brand-500 focus:ring-brand-500">
+                            <span class="font-bold text-slate-800">Cash on Delivery</span>
+                        </label>
+                        <label class="border border-slate-200 p-3 rounded-xl flex items-center gap-2 cursor-pointer hover:border-brand-500 transition">
+                            <input type="radio" name="payment" value="card" class="text-brand-500 focus:ring-brand-500">
+                            <span class="font-bold text-slate-800">Card on Delivery</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-sm">
+                    <span class="font-bold text-slate-600">Total Payable:</span>
+                    <span id="checkoutTotalAmount" class="font-black text-brand-600 text-lg">Rs. 0</span>
+                </div>
+
+                <button type="submit" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-extrabold py-3 rounded-xl transition text-xs uppercase tracking-wider shadow-lg shadow-brand-500/20">
+                    Confirm Order Now
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Table Booking Modal -->
+    <div id="bookingModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative">
+            <button onclick="closeBookingModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <div class="flex items-center gap-3 mb-5">
+                <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center font-bold">
+                    <i class="fa-solid fa-chair text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-extrabold text-slate-900">Book a Table</h3>
+                    <p class="text-xs text-slate-500">Reserve your spot at A&D Foods</p>
+                </div>
+            </div>
+
+            <form onsubmit="submitBooking(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Your Name *</label>
+                    <input type="text" required placeholder="e.g. Kasun Silva" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-500">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Date *</label>
+                        <input type="date" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-500">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Time *</label>
+                        <input type="time" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-500">
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Number of Guests</label>
+                    <select class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-500 font-medium">
+                        <option>1 - 2 Guests</option>
+                        <option>3 - 5 Guests</option>
+                        <option>6 - 10 Guests (Family Table)</option>
+                        <option>10+ Large Party</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Special Request (Optional)</label>
+                    <input type="text" placeholder="e.g. Birthday celebration, High chair needed" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-500">
+                </div>
+
+                <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-extrabold py-3 rounded-xl transition text-xs mt-2">
+                    Confirm Table Reservation
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <script>
+        // Menu Data Array
+        const foodMenu = [
+            {
+                id: 1,
+                name: "Authentic String Hoppers Set (Idiyappam)",
+                category: "sl-specials",
+                price: 450,
+                rating: 4.9,
+                reviews: 128,
+                image: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=600&q=80",
+                desc: "15 Fresh red/white string hoppers served with spicy Katta Sambol, Dhal Curry & Creamy Potato Curry.",
+                badge: "🇱🇰 Bestseller"
+            },
+            {
+                id: 2,
+                name: "Sri Lankan Fresh Kiribath Plate",
+                category: "sl-specials",
+                price: 400,
+                rating: 4.8,
+                reviews: 95,
+                image: "https://images.unsplash.com/photo-1516714435131-44d6b64dc6a2?auto=format&fit=crop&w=600&q=80",
+                desc: "Traditional coconut milk rice served hot with fiery Lunu Miris, sweet Seeni Sambol & optional Fish curry.",
+                badge: "Hot Breakfast"
+            },
+            {
+                id: 3,
+                name: "Signature Chicken Kottu Roti",
+                category: "sl-specials",
+                price: 750,
+                rating: 5.0,
+                reviews: 210,
+                image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=600&q=80",
+                desc: "Crispy shredded roti wok-chopped with roast chicken, fried eggs, onions, green chilies & rich spicy chicken gravy.",
+                badge: "Chef Special"
+            },
+            {
+                id: 4,
+                name: "Sri Lankan Spicy Fried Noodles",
+                category: "rice-noodles",
+                price: 680,
+                rating: 4.7,
+                reviews: 84,
+                image: "https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=600&q=80",
+                desc: "Wok-tossed noodles with shredded chicken, eggs, fresh vegetables, homemade chili paste & crispy onions.",
+                badge: "Popular"
+            },
+            {
+                id: 5,
+                name: "A&D Special Lamprais Rice",
+                category: "rice-noodles",
+                price: 890,
+                rating: 4.9,
+                reviews: 162,
+                image: "https://images.unsplash.com/photo-1596797038530-2c107229654b?auto=format&fit=crop&w=600&q=80",
+                desc: "Fragrant stock-cooked rice with mixed meat curry, eggplant pahie, blachan, frikkadels & boiled egg baked in banana leaf.",
+                badge: "Authentic"
+            },
+            {
+                id: 6,
+                name: "Crispy Spicy Chicken Burger",
+                category: "burgers",
+                price: 950,
+                rating: 4.6,
+                reviews: 73,
+                image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80",
+                desc: "Zesty deep-fried chicken fillet, melted cheddar cheese, spicy mayo, lettuce & tomato in a toasted brioche bun.",
+                badge: "Crispy"
+            },
+            {
+                id: 7,
+                name: "Spicy Island Seafood Pizza",
+                category: "pizza",
+                price: 1850,
+                rating: 4.8,
+                reviews: 112,
+                image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80",
+                desc: "Local spice infused sauce, calamari rings, fresh prawns, mozzarella cheese, capsicum & dried chili flakes.",
+                badge: "Must Try"
+            },
+            {
+                id: 8,
+                name: "Chilled King Coconut Water (Thambili)",
+                category: "beverages",
+                price: 180,
+                rating: 5.0,
+                reviews: 310,
+                image: "https://images.unsplash.com/photo-1525385133512-2f3bdd039054?auto=format&fit=crop&w=600&q=80",
+                desc: "100% natural, refreshing king coconut water served chilled right out of the shell.",
+                badge: "Natural"
+            },
+            {
+                id: 9,
+                name: "Classic Falooda Supreme",
+                category: "beverages",
+                price: 420,
+                rating: 4.7,
+                reviews: 89,
+                image: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=600&q=80",
+                desc: "Rose syrup milk drink with basil seeds, grass jelly, ice cream scoop & crushed nuts.",
+                badge: "Sweet Treat"
+            },
+            {
+                id: 10,
+                name: "Rich Watalappan Pudding",
+                category: "desserts",
+                price: 380,
+                rating: 4.9,
+                reviews: 140,
+                image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80",
+                desc: "Traditional Sri Lankan steamed coconut jaggery custard scented with cardamom, nutmeg & toasted cashews.",
+                badge: "Traditional"
+            }
+        ];
+
+        // Global State Variables
+        let cart = [];
+        let activeCategory = 'all';
+        let searchQuery = '';
+        let discountPercent = 0;
+        const DELIVERY_FEE = 250;
+
+        // On Window Load
+        window.addEventListener('DOMContentLoaded', () => {
+            renderMenu();
+            updateCartUI();
+        });
+
+        // Toggle Mobile Menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Render Menu Cards
+        function renderMenu() {
+            const grid = document.getElementById('foodGrid');
+            const emptyState = document.getElementById('emptyMenuState');
+            grid.innerHTML = '';
+
+            const filteredItems = foodMenu.filter(item => {
+                const matchesCategory = activeCategory === 'all' || item.category === activeCategory;
+                const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                      item.desc.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filteredItems.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            filteredItems.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1";
+                
+                card.innerHTML = `
+                    <div class="relative overflow-hidden h-48 bg-slate-100">
+                        <img src="${item.image}" alt="${item.name}" 
+                             onerror="this.src='https://placehold.co/400x300/f97316/ffffff?text=${encodeURIComponent(item.name)}'"
+                             class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <span class="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
+                            ${item.badge}
+                        </span>
+                        <div class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-lg text-slate-800 text-xs font-bold flex items-center gap-1 shadow">
+                            <i class="fa-solid fa-star text-amber-400"></i> ${item.rating} <span class="text-[10px] text-slate-400">(${item.reviews})</span>
+                        </div>
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+                        <div>
+                            <h3 class="font-extrabold text-slate-900 text-base leading-snug group-hover:text-brand-600 transition">${item.name}</h3>
+                            <p class="text-xs text-slate-500 mt-1.5 leading-relaxed line-clamp-2">${item.desc}</p>
+                        </div>
+                        <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+                            <div>
+                                <span class="text-[10px] text-slate-400 block font-semibold">Price</span>
+                                <span class="text-lg font-black text-slate-900">Rs. ${item.price.toLocaleString()}</span>
+                            </div>
+                            <button onclick="addToCart(${item.id})" class="bg-brand-500 hover:bg-brand-600 text-white font-bold px-4 py-2.5 rounded-2xl text-xs flex items-center gap-2 shadow-md shadow-brand-500/20 hover:scale-105 transition">
+                                <i class="fa-solid fa-cart-plus"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Filter Category Click Handler
+        function filterCategory(category) {
+            activeCategory = category;
+            
+            // Update Tab active styling
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                if (btn.getAttribute('data-category') === category) {
+                    btn.className = "category-btn active bg-brand-500 text-white px-5 py-2.5 rounded-full text-xs font-bold shadow-md whitespace-nowrap transition";
+                } else {
+                    btn.className = "category-btn bg-white text-slate-700 hover:bg-slate-100 px-5 py-2.5 rounded-full text-xs font-bold border border-slate-200 whitespace-nowrap transition";
+                }
+            });
+
+            renderMenu();
+        }
+
+        // Handle Dynamic Search Inputs
+        function handleNavSearch(e) {
+            searchQuery = e.target.value;
+            const menuSearch = document.getElementById('menuSearchInput');
+            if(menuSearch && menuSearch !== e.target) menuSearch.value = searchQuery;
+            renderMenu();
+            if(searchQuery.length > 0) {
+                document.getElementById('menu').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function handleMenuSearch(e) {
+            searchQuery = e.target.value;
+            renderMenu();
+        }
+
+        // Add Item to Cart
+        function addToCart(itemId) {
+            const item = foodMenu.find(i => i.id === itemId);
+            if (!item) return;
+
+            const existing = cart.find(c => c.id === itemId);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...item, qty: 1 });
+            }
+
+            updateCartUI();
+            showToast(`Added "${item.name}" to cart!`);
+        }
+
+        // Add Custom Combo Offer directly
+        function addPromoToCart(comboTitle, price) {
+            const comboId = 9990 + Math.floor(Math.random() * 10);
+            const existing = cart.find(c => c.name === comboTitle);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({
+                    id: comboId,
+                    name: comboTitle,
+                    price: price,
+                    qty: 1,
+                    image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=300&q=80"
+                });
+            }
+            updateCartUI();
+            toggleCartDrawer(true);
+            showToast(`Special Combo added to cart!`);
+        }
+
+        // Quantity Change in Cart
+        function updateQty(id, delta) {
+            const item = cart.find(c => c.id === id);
+            if (!item) return;
+
+            item.qty += delta;
+            if (item.qty <= 0) {
+                cart = cart.filter(c => c.id !== id);
+            }
+            updateCartUI();
+        }
+
+        // Remove Item
+        function removeFromCart(id) {
+            cart = cart.filter(c => c.id !== id);
+            updateCartUI();
+            showToast("Item removed from basket");
+        }
+
+        // Apply Promo Code
+        function applyPromoCode() {
+            const code = document.getElementById('promoInput').value.trim().toUpperCase();
+            const msg = document.getElementById('promoMessage');
+
+            if (code === 'ADFOODS20') {
+                discountPercent = 0.20;
+                msg.textContent = "20% Discount Applied!";
+                msg.className = "text-[11px] text-emerald-600 font-bold block";
+                showToast("Promo Code ADFOODS20 Applied!");
+            } else if(code === '') {
+                discountPercent = 0;
+                msg.className = "hidden";
+            } else {
+                discountPercent = 0;
+                msg.textContent = "Invalid code. Try ADFOODS20";
+                msg.className = "text-[11px] text-red-500 font-bold block";
+            }
+            updateCartUI();
+        }
+
+        // Update Shopping Cart UI Display
+        function updateCartUI() {
+            const countBadge = document.getElementById('cartBadge');
+            const drawerCount = document.getElementById('drawerCartCount');
+            const cartItemsList = document.getElementById('cartItemsList');
+            const emptyCartView = document.getElementById('emptyCartView');
+            const cartFooter = document.getElementById('cartFooter');
+
+            const totalItemsCount = cart.reduce((sum, i) => sum + i.qty, 0);
+            countBadge.textContent = totalItemsCount;
+            drawerCount.textContent = `${totalItemsCount} items`;
+
+            if (cart.length === 0) {
+                cartItemsList.classList.add('hidden');
+                emptyCartView.classList.remove('hidden');
+                cartFooter.classList.add('hidden');
+            } else {
+                cartItemsList.classList.remove('hidden');
+                emptyCartView.classList.add('hidden');
+                cartFooter.classList.remove('hidden');
+
+                // Render cart item rows
+                cartItemsList.innerHTML = '';
+                cart.forEach(item => {
+                    const row = document.createElement('div');
+                    row.className = "flex items-center gap-3 bg-slate-50 p-3 rounded-2xl border border-slate-100";
+                    row.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}" class="w-14 h-14 object-cover rounded-xl shrink-0">
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-xs font-bold text-slate-800 truncate">${item.name}</h4>
+                            <p class="text-xs font-black text-brand-600 mt-0.5">Rs. ${item.price.toLocaleString()}</p>
+                            
+                            <div class="flex items-center gap-2 mt-2">
+                                <button onclick="updateQty(${item.id}, -1)" class="w-6 h-6 rounded-lg bg-white border border-slate-200 text-slate-700 flex items-center justify-center font-bold text-xs hover:bg-slate-200">-</button>
+                                <span class="text-xs font-bold text-slate-800">${item.qty}</span>
+                                <button onclick="updateQty(${item.id}, 1)" class="w-6 h-6 rounded-lg bg-white border border-slate-200 text-slate-700 flex items-center justify-center font-bold text-xs hover:bg-slate-200">+</button>
+                            </div>
+                        </div>
+                        <button onclick="removeFromCart(${item.id})" class="text-slate-400 hover:text-red-500 p-2">
+                            <i class="fa-solid fa-trash-can text-sm"></i>
+                        </button>
+                    `;
+                    cartItemsList.appendChild(row);
+                });
+            }
+
+            // Calculation
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const discountAmt = subtotal * discountPercent;
+            const grandTotal = subtotal > 0 ? (subtotal - discountAmt + DELIVERY_FEE) : 0;
+
+            document.getElementById('cartSubtotal').textContent = `Rs. ${subtotal.toLocaleString()}`;
+            document.getElementById('cartDelivery').textContent = subtotal > 0 ? `Rs. ${DELIVERY_FEE}` : `Rs. 0`;
+
+            const discountRow = document.getElementById('discountRow');
+            if (discountPercent > 0 && subtotal > 0) {
+                discountRow.classList.remove('hidden');
+                document.getElementById('cartDiscount').textContent = `- Rs. ${discountAmt.toLocaleString()}`;
+            } else {
+                discountRow.classList.add('hidden');
+            }
+
+            document.getElementById('cartTotal').textContent = `Rs. ${grandTotal.toLocaleString()}`;
+            document.getElementById('checkoutTotalAmount').textContent = `Rs. ${grandTotal.toLocaleString()}`;
+        }
+
+        // Open/Close Cart Drawer
+        function toggleCartDrawer(open) {
+            const drawer = document.getElementById('cartDrawer');
+            const overlay = document.getElementById('cartOverlay');
+
+            if (open) {
+                overlay.classList.remove('opacity-0', 'pointer-events-none');
+                drawer.classList.remove('translate-x-full');
+            } else {
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+                drawer.classList.add('translate-x-full');
+            }
+        }
+
+        // Checkout Modal Functions
+        function openCheckoutModal() {
+            if (cart.length === 0) return;
+            toggleCartDrawer(false);
+            document.getElementById('checkoutModal').classList.remove('hidden');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').classList.add('hidden');
+        }
+
+        function submitOrder(e) {
+            e.preventDefault();
+            const name = document.getElementById('custName').value;
+            const phone = document.getElementById('custPhone').value;
+
+            // Clear cart & close checkout
+            cart = [];
+            updateCartUI();
+            closeCheckoutModal();
+
+            showToast(`Thank you ${name}! Your order has been placed. Delivery in ~30 mins.`, 5000);
+        }
+
+        // Table Booking Functions
+        function openBookingModal() {
+            document.getElementById('bookingModal').classList.remove('hidden');
+        }
+
+        function closeBookingModal() {
+            document.getElementById('bookingModal').classList.add('hidden');
+        }
+
+        function submitBooking(e) {
+            e.preventDefault();
+            closeBookingModal();
+            showToast("Table reservation confirmed! We look forward to hosting you at A&D Foods.", 5000);
+        }
+
+        // Newsletter Subscription
+        function handleNewsletter(e) {
+            e.preventDefault();
+            const input = document.getElementById('newsletterEmail');
+            showToast("Subscribed! Voucher code sent to your email.");
+            input.value = '';
+        }
+
+        // Dynamic Toast Banner Function
+        function showToast(message, duration = 3000) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = "pointer-events-auto bg-slate-900 text-white text-xs font-bold px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-slate-700 animate-bounce";
+            toast.innerHTML = `
+                <i class="fa-solid fa-circle-check text-brand-500 text-base"></i>
+                <span>${message}</span>
+            `;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'transition', 'duration-300');
+                setTimeout(() => toast.remove(), 300);
+            }, duration);
+        }
+    </script>
+</body>
+</html>
